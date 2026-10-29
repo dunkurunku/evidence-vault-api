@@ -1,5 +1,3 @@
-"""Sesión de base de datos con SQLAlchemy 2.0."""
-
 from collections.abc import Iterator
 
 from sqlalchemy import create_engine
@@ -13,7 +11,7 @@ class Base(DeclarativeBase):
 
 
 def _make_engine(url: str):
-    # SQLite necesita este argumento para usarse desde varios hilos (TestClient).
+    # necesario para usar SQLite desde el TestClient
     connect_args = {"check_same_thread": False} if url.startswith("sqlite") else {}
     return create_engine(url, connect_args=connect_args, future=True)
 
@@ -23,7 +21,6 @@ SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, clas
 
 
 def get_db() -> Iterator[Session]:
-    """Dependencia de FastAPI: una sesión por petición, cerrada al terminar."""
     db = SessionLocal()
     try:
         yield db

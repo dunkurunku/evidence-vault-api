@@ -1,5 +1,3 @@
-"""Esquemas de entrada y salida de la API (Pydantic)."""
-
 from datetime import datetime
 from typing import Optional
 
@@ -30,6 +28,8 @@ class CustodyEventOut(BaseModel):
     action: str
     detail: Optional[str]
     at: datetime
+    prev_hash: str
+    hash: str
 
 
 class EvidenceOut(BaseModel):
@@ -50,3 +50,10 @@ class VerifyResult(BaseModel):
     matches: bool
     expected_sha256: str
     received_sha256: str
+
+
+class ChainCheck(BaseModel):
+    evidence_id: int
+    valid: bool
+    events: int
+    broken_at: Optional[int] = None

@@ -1,5 +1,3 @@
-"""Huella SHA-256 de un flujo de bytes, calculada por bloques para no cargar el fichero entero."""
-
 import hashlib
 from typing import BinaryIO
 

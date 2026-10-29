@@ -1,5 +1,3 @@
-"""Modelo relacional: usuarios y evidencias con su cadena de custodia."""
-
 from datetime import datetime, timezone
 from typing import Optional
 
@@ -25,8 +23,6 @@ class User(Base):
 
 
 class Evidence(Base):
-    """Un fichero custodiado: su huella SHA-256 y el momento en que se registró."""
-
     __tablename__ = "evidences"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -41,13 +37,13 @@ class Evidence(Base):
 
     owner: Mapped[User] = relationship(back_populates="evidences")
     events: Mapped[list["CustodyEvent"]] = relationship(
-        back_populates="evidence", cascade="all, delete-orphan", order_by="CustodyEvent.at"
+        back_populates="evidence",
+        cascade="all, delete-orphan",
+        order_by="(CustodyEvent.at, CustodyEvent.id)",
     )
 
 
 class CustodyEvent(Base):
-    """Cada acción sobre una evidencia queda registrada: quién, qué y cuándo."""
-
     __tablename__ = "custody_events"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -57,5 +53,7 @@ class CustodyEvent(Base):
     action: Mapped[str] = mapped_column(String(50), nullable=False)
     detail: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    prev_hash: Mapped[str] = mapped_column(String(64), nullable=False)
+    hash: Mapped[str] = mapped_column(String(64), nullable=False)
 
     evidence: Mapped[Evidence] = relationship(back_populates="events")

@@ -1,5 +1,3 @@
-"""Configuración de la aplicación, leída de variables de entorno o de un fichero .env."""
-
 from functools import lru_cache
 
 from pydantic_settings import BaseSettings, SettingsConfigDict

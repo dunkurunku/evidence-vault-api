@@ -1,5 +1,3 @@
-"""Punto de entrada de la API."""
-
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -19,7 +17,7 @@ app.include_router(evidence.router)
 
 @app.on_event("startup")
 def startup() -> None:
-    # Para empezar basta con crear las tablas; el siguiente paso natural es Alembic.
+    # TODO: migraciones con Alembic
     Base.metadata.create_all(bind=engine)
     Path(get_settings().storage_dir).mkdir(parents=True, exist_ok=True)
 

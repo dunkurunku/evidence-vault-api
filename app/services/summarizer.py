@@ -1,10 +1,8 @@
-"""Resumen de un documento de texto con Claude. Solo funciona si hay ANTHROPIC_API_KEY."""
-
 from anthropic import Anthropic
 
 from app.config import get_settings
 
-MODEL = "claude-sonnet-5"
+MODEL = "claude-sonnet-5-5"
 
 
 def summarize(text: str, max_chars: int = 20000) -> str:
